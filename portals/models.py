@@ -49,6 +49,14 @@ class DicomFile(models.Model):
     def __str__(self):
         return f"DICOM {self.file.name}"
 
+
+class CaseFile(models.Model):
+    patient = models.ForeignKey(Patient, on_delete=models.CASCADE, related_name='files')
+    file = models.FileField(upload_to='cases/%Y/%m/%d')  # will store under MEDIA_ROOT/cases/YYYY/MM/DD/
+
+    def __str__(self):
+        return f"{self.patient.patient_id}: {self.file.name}"
+
 class Report(models.Model):
     patient     = models.ForeignKey(Patient, on_delete=models.CASCADE)
     author      = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
