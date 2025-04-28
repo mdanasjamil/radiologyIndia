@@ -4,6 +4,11 @@ from django.conf import settings
 from django.db import models
 from django.conf import settings
 from django.utils import timezone
+from django.utils import timezone
+import pytz
+
+def ist_now():
+    return timezone.now().astimezone(pytz.timezone('Asia/Kolkata'))
 
 class Patient(models.Model):
     STATUS_CHOICES = [
@@ -24,7 +29,7 @@ class Patient(models.Model):
     sex                = models.CharField(max_length=10, choices=[('Male','Male'),('Female','Female')])
     modality           = models.CharField(max_length=10, choices=MODALITY_CHOICES)
     study_type         = models.CharField(max_length=100)
-    receiving_date     = models.DateField()
+    receiving_date = models.DateTimeField(default=ist_now, editable=False)
     number_of_images   = models.PositiveIntegerField(default=0)
     preferred_physician= models.ForeignKey(
                             settings.AUTH_USER_MODEL,

@@ -138,4 +138,6 @@ LOGOUT_REDIRECT_URL = '/login/'
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / 'media'
+TIME_ZONE = 'Asia/Kolkata'
+USE_TZ = True
 

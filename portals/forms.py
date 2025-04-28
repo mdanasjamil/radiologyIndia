@@ -9,7 +9,7 @@ class AddCaseForm(forms.ModelForm):
         model = Patient
         fields = [
             'patient_name', 'age', 'sex', 'modality',
-            'study_type', 'receiving_date', 'institution_name',
+            'study_type', 'institution_name',
         ]
         widgets = {
             'receiving_date': forms.DateInput(attrs={'type': 'date'}),
