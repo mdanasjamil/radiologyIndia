@@ -77,10 +77,15 @@ WSGI_APPLICATION = 'radiologyIndia.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'radiologyIndia',    # database name
+        'USER': 'root',              # MySQL username
+        'PASSWORD': 'admin',           # MySQL password
+        'HOST': 'localhost',         # Running on your own machine
+        'PORT': '3306',              # Default MySQL port
     }
 }
+
 
 
 # Password validation
@@ -124,4 +129,13 @@ STATIC_URL = 'static/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 AUTH_USER_MODEL = 'accounts.User'
+
+# Tell login_required to redirect here
+LOGIN_URL = '/login/'
+
+# (Optional) After logout, send users here
+LOGOUT_REDIRECT_URL = '/login/'
+
+MEDIA_URL = '/media/'
+MEDIA_ROOT = BASE_DIR / 'media'
 

@@ -1,6 +1,169 @@
-<!DOCTYPE html><html><body>
-  <h2>Assigner Dashboard</h2>
-  <p>Welcome, {{ request.user.username }}!</p>
-<a href="{% url 'logout' %}">Logout</a>
-<!-- TODO: upload DICOM & assign doctor features here -->
-</body></html>
+
+
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <link rel="stylesheet" href="{% static 'css/portal.css' %}">
+  <title>Assigner Dashboard</title>
+    <style>
+    body { margin:0; font-family: 'Segoe UI',sans-serif; background:#f4f6f8; }
+    .navbar { display:flex; justify-content:space-between; align-items:center; background:#036; color:#fff; padding:10px 20px; }
+    .navbar .logo { font-size:1.5rem; }
+    .navbar .profile-pic { width:40px; height:40px; border-radius:50%; }
+    .dropdown { position:relative; display:inline-block; }
+    .dropbtn { background:none; border:none; color:#fff; font-size:1rem; cursor:pointer; }
+    .dropdown-content { display:none; position:absolute; right:0; background:#fff; min-width:120px; box-shadow:0 4px 8px rgba(0,0,0,0.2); }
+    .dropdown-content a { color:#333; padding:8px 12px; display:block; text-decoration:none; }
+    .dropdown-content a:hover { background:#eee; }
+    .dropdown:hover .dropdown-content { display:block; }
+    .controls { display:flex; justify-content:space-between; padding:15px 20px; background:#fff; border-bottom:1px solid #ddd; }
+    .filter-form select, .filter-form button, .upload-form input, .upload-form button { margin-right:10px; padding:6px 12px; border:1px solid #ccc; border-radius:4px; }
+    .upload-form input { width:200px; }
+    .table-container { padding:20px; overflow-x:auto; }
+    table { width:100%; border-collapse:collapse; background:#fff; }
+    th, td { padding:10px; border:1px solid #ddd; text-align:left; }
+    th { background:#f0f0f0; }
+    .btn-add, .btn-save, .btn-cancel, .btn-assign { padding:8px 15px; border:none; border-radius:4px; color:#fff; cursor:pointer; }
+    .btn-add { background:#036; }
+    .btn-save { background:green; }
+    .btn-cancel { background:red; }
+    .btn-assign { background:#028; margin-left:5px; padding:4px 8px; }
+    .modal { position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.4); display:flex; align-items:center; justify-content:center; z-index:1000; }
+    .modal-content { background:#fff; padding:20px; border-radius:8px; width:400px; position:relative; }
+    .modal-content .close { position:absolute; top:10px; right:15px; font-size:1.5rem; cursor:pointer; }
+    .physician-select { padding:4px; }
+    /* Add Case Button */
+.btn-add { padding:8px 15px; background:#036; color:#fff; border:none; border-radius:4px; }
+/* Modal */
+.modal { position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.4); display:flex; align-items:center; justify-content:center; }
+.modal-content { background:#fff; padding:20px; border-radius:8px; width:400px; position:relative; }
+.modal-content .close { position:absolute; top:10px; right:15px; font-size:1.5rem; cursor:pointer; }
+.btn-save   { background:green; color:#fff; padding:8px 15px; border:none; border-radius:4px; }
+.btn-cancel { background:red;   color:#fff; padding:8px 15px; border:none; border-radius:4px; }
+.btn-assign{ background:#028; color:#fff; padding:4px 8px; border:none; border-radius:4px; margin-left:5px; }
+.physician-select { padding:4px; }
+  </style>
+</head>
+<body>
+
+  <!-- Navbar -->
+  <nav class="navbar">
+    <div class="logo">Radiology Portal</div>
+    <div class="nav-right">
+      <img src="{% static 'images/profile.png' %}" class="profile-pic">
+      <div class="dropdown">
+        <button class="dropbtn">{{ request.user.username }}</button>
+        <div class="dropdown-content">
+          <a href="#">View Profile</a>
+          <a href="{% url 'logout' %}">Logout</a>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Filters and Add Case -->
+  <header class="controls">
+    <form method="get" class="filter-form">
+      <select name="status">
+        <option value="">All Status</option>
+        <option value="unassigned">Unassigned</option>
+        <option value="assigned">Assigned</option>
+        <option value="reported">Reported</option>
+      </select>
+      <button type="submit">Filter</button>
+    </form>
+    <button class="btn-add" onclick="openForm()">Add New Case</button>
+  </header>
+
+  <!-- Add Case Modal -->
+  <div id="caseForm" class="modal" style="display:none;">
+    <div class="modal-content">
+      <span class="close" onclick="closeForm()">&times;</span>
+      <h2>Add New Case</h2>
+      <form method="post" enctype="multipart/form-data" action="{% url 'add_case' %}" class="case-form">
+        {% csrf_token %}
+        {{ add_case_form.as_p }}
+{#        <label>Upload ZIP of DICOM</label><br>#}
+{#        <input type="file" name="zip_file" accept=".zip" required><br><br>#}
+        <button type="submit" class="btn-save">Save Case</button>
+        <button type="button" class="btn-cancel" onclick="closeForm()">Cancel</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Main Table -->
+  <main class="table-container">
+    <table>
+      <thead>
+        <tr>
+          <th>Status</th><th>Patient Id</th><th>Name</th><th>Age</th><th>Sex</th>
+          <th>Mod</th><th>Study Type</th><th>Received</th><th>Img</th>
+          <th>Report</th><th>StudyDate</th><th>Physician</th><th>Assign</th><th>Report Time</th><th>Institution</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for p in patients %}
+        <tr>
+          <td>{{ p.status }}</td>
+          <td>{{ p.patient_id }}</td>
+          <td>{{ p.patient_name }}</td>
+          <td>{{ p.age }}</td>
+          <td>{{ p.sex }}</td>
+          <td>{{ p.modality }}</td>
+          <td>{{ p.study_type }}</td>
+          <td>{{ p.receiving_date }}</td>
+          <td>{{ p.number_of_images }}</td>
+          <td>
+            {% if p.report_file %}
+              <a href="{{ p.report_file.url }}" download>Download</a>
+            {% else %}-{% endif %}
+          </td>
+          <td>{{ p.study_date|default:"-" }}</td>
+          <td>
+            {% if p.preferred_physician %}
+              {{ p.preferred_physician.username }}
+            {% else %}-{% endif %}
+          </td>
+          <td>
+            {% if p.status == 'unassigned' %}
+              <form method="post" action="{% url 'assign_physician' p.id %}">
+                {% csrf_token %}
+                <select name="physician" class="physician-select" required>
+                  <option value="">Select doctor</option>
+                  {% for doc in physicians %}
+                    <option value="{{ doc.id }}">{{ doc.username }}</option>
+                  {% endfor %}
+                </select>
+                <button type="submit" class="btn-assign">Assign</button>
+              </form>
+            {% else %}
+              <button onclick="openAssignForm({{ p.id }})">Change</button>
+            {% endif %}
+          </td>
+          <td>{{ p.report_time|date:"Y-m-d H:i"|default:"-" }}</td>
+          <td>{{ p.institution_name }}</td>
+        </tr>
+        {% empty %}
+        <tr><td colspan="15">No cases found.</td></tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </main>
+
+  <!-- JS -->
+  <script>
+    function openForm() {
+      document.getElementById('caseForm').style.display = 'flex';
+    }
+    function closeForm() {
+      document.getElementById('caseForm').style.display = 'none';
+    }
+    function openAssignForm(id) {
+      window.location.href = `/assigner/dashboard/?patient=${id}`;
+    }
+  </script>
+</body>
+</html>

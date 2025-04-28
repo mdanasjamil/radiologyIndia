@@ -4,19 +4,19 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="32d7b64f-2221-4c00-9983-3ee3eee7472c" name="Changes" comment="Initialized Project">
-      <change afterPath="$PROJECT_DIR$/accounts/urls.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/patients/urls.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/templates/accounts/login.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/templates/accounts/signup.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/templates/patients/assigner_dashboard.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/templates/patients/doctor_dashboard.html" afterDir="false" />
+    <list default="true" id="32d7b64f-2221-4c00-9983-3ee3eee7472c" name="Changes" comment="Signup, Login and two portals created">
+      <change afterPath="$PROJECT_DIR$/portals/forms.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/accounts/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/accounts/models.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/accounts/admin.py" beforeDir="false" afterPath="$PROJECT_DIR$/accounts/admin.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/accounts/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/accounts/urls.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/accounts/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/accounts/views.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/patients/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/patients/views.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/portals/admin.py" beforeDir="false" afterPath="$PROJECT_DIR$/portals/admin.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/portals/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/portals/models.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/portals/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/portals/urls.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/portals/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/portals/views.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/radiologyIndia/settings.py" beforeDir="false" afterPath="$PROJECT_DIR$/radiologyIndia/settings.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/radiologyIndia/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/radiologyIndia/urls.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/portals/assigner_dashboard.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/portals/assigner_dashboard.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -29,8 +29,8 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
-        <option value="Python Script" />
         <option value="HTML File" />
+        <option value="Python Script" />
       </list>
     </option>
   </component>
@@ -49,23 +49,24 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "DefaultHtmlFileTemplate": "HTML File",
-    "Django Server.RadiologyIndia.executor": "Run",
-    "RunOnceActivity.OpenDjangoStructureViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "django.template.preview.state": "SHOW_EDITOR_AND_PREVIEW",
-    "git-widget-placeholder": "master",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "settings.editor.selected.configurable": "preferences.pluginManager",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;DefaultHtmlFileTemplate&quot;: &quot;HTML File&quot;,
+    &quot;Django Server.RadiologyIndia.executor&quot;: &quot;Run&quot;,
+    &quot;RunOnceActivity.OpenDjangoStructureViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.pycharm.django.structure.promotion.once.per.project&quot;: &quot;true&quot;,
+    &quot;django.template.preview.state&quot;: &quot;SHOW_EDITOR_AND_PREVIEW&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;master&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.pluginManager&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
       <recent name="C:\Users\anasj\PycharmProjects\RadiologyIndia\templates\patients" />
@@ -115,7 +116,8 @@
       <option name="presentableId" value="Default" />
       <updated>1745728444582</updated>
       <workItem from="1745728445975" duration="232000" />
-      <workItem from="1745728697237" duration="1903000" />
+      <workItem from="1745728697237" duration="2499000" />
+      <workItem from="1745731228722" duration="8980000" />
     </task>
     <task id="LOCAL-00001" summary="Initialized Project">
       <option name="closed" value="true" />
@@ -133,14 +135,34 @@
       <option name="project" value="LOCAL" />
       <updated>1745728845950</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL-00003" summary="Signup, Login and two portals created">
+      <option name="closed" value="true" />
+      <created>1745730932773</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1745730932773</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
   </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="Initialized Project" />
-    <option name="LAST_COMMIT_MESSAGE" value="Initialized Project" />
+    <MESSAGE value="Signup, Login and two portals created" />
+    <option name="LAST_COMMIT_MESSAGE" value="Signup, Login and two portals created" />
   </component>
 </project>
