@@ -4,23 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="32d7b64f-2221-4c00-9983-3ee3eee7472c" name="Changes" comment="Working website till assigner dashboard">
-      <change afterPath="$PROJECT_DIR$/portals/assigner_urls.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/portals/doctor_urls.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/templates/portals/report_form.html" afterDir="false" />
+    <list default="true" id="32d7b64f-2221-4c00-9983-3ee3eee7472c" name="Changes" comment="Complete prototype done">
+      <change afterPath="$PROJECT_DIR$/requirements.txt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/accounts/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/accounts/urls.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/accounts/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/accounts/views.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/portals/forms.py" beforeDir="false" afterPath="$PROJECT_DIR$/portals/forms.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/portals/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/portals/models.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/portals/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/portals/urls.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/portals/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/portals/views.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/radiologyIndia/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/radiologyIndia/urls.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/accounts/landing.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/accounts/landing.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/accounts/login.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/accounts/login.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/accounts/signup.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/accounts/signup.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/portals/assigner_dashboard.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/portals/assigner_dashboard.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/portals/doctor_dashboard.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/portals/doctor_dashboard.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -124,7 +110,7 @@
       <updated>1745728444582</updated>
       <workItem from="1745728445975" duration="232000" />
       <workItem from="1745728697237" duration="2499000" />
-      <workItem from="1745731228722" duration="42259000" />
+      <workItem from="1745731228722" duration="43255000" />
     </task>
     <task id="LOCAL-00001" summary="Initialized Project">
       <option name="closed" value="true" />
@@ -174,7 +160,15 @@
       <option name="project" value="LOCAL" />
       <updated>1745837768919</updated>
     </task>
-    <option name="localTasksCounter" value="7" />
+    <task id="LOCAL-00007" summary="Complete prototype done">
+      <option name="closed" value="true" />
+      <created>1746772187855</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1746772187855</updated>
+    </task>
+    <option name="localTasksCounter" value="8" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -196,6 +190,7 @@
     <MESSAGE value="Signup, Login and two portals created" />
     <MESSAGE value="Working website" />
     <MESSAGE value="Working website till assigner dashboard" />
-    <option name="LAST_COMMIT_MESSAGE" value="Working website till assigner dashboard" />
+    <MESSAGE value="Complete prototype done" />
+    <option name="LAST_COMMIT_MESSAGE" value="Complete prototype done" />
   </component>
 </project>
