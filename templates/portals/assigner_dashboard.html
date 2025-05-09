@@ -6,9 +6,21 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
-  <link rel="stylesheet" href="{% static 'css/portal.css' %}">
+{#  <link rel="stylesheet" href="{% static 'css/portal.css' %}">#}
   <title>Assigner Dashboard</title>
   <style>
+      .btn-report {
+  display: inline-block;
+  background: #28a745;
+  color: #fff;
+  padding: 4px 8px;
+  border-radius: 4px;
+  text-decoration: none;
+  font-size: 0.9rem;
+}
+.btn-report:hover {
+  background: #218838;
+}
     body { margin:0; font-family: 'Segoe UI',sans-serif; background:#f4f6f8; }
     .navbar { display:flex; justify-content:space-between; align-items:center; background:#036; color:#fff; padding:10px 20px; }
     .navbar .logo { font-size:1.5rem; }
@@ -67,7 +79,7 @@
         <button class="dropbtn">{{ request.user.username }}</button>
         <div class="dropdown-content">
           <a href="#">View Profile</a>
-          <a href="{% url 'logout' %}">Logout</a>
+          <a href="{% url 'accounts:logout' %}">Logout</a>
         </div>
       </div>
     </div>
@@ -75,36 +87,45 @@
 
   <!-- Filters and Add Case -->
   <header class="controls">
-    <form method="get" class="filter-form">
-      <select name="status">
-        <option value="">All Status</option>
-        <option value="unassigned" {% if filters.status == 'unassigned' %}selected{% endif %}>Unassigned</option>
-        <option value="assigned"   {% if filters.status == 'assigned'   %}selected{% endif %}>Assigned</option>
-        <option value="reported"   {% if filters.status == 'reported'   %}selected{% endif %}>Reported</option>
-      </select>
+  <form method="get" class="filter-form" id="filterForm" style="display: flex; flex-wrap: wrap; align-items: center; gap: 10px;">
+    <input type="text" name="q" value="{{ filters.q }}" placeholder="Search Patient Name or ID" style="padding:6px 12px; border:1px solid #ccc; border-radius:4px;">
 
-      <select name="modality">
-        <option value="">All Modality</option>
-        {% for val,label in Patient.MODALITY_CHOICES %}
-          <option value="{{ val }}" {% if filters.modality == val %}selected{% endif %}>{{ label }}</option>
-        {% endfor %}
-      </select>
+    <button type="submit" style="padding:6px 12px; background:#036; color:#fff; border:none; border-radius:4px; cursor:pointer;">
+      🔍
+    </button>
 
-      <select name="sex">
-        <option value="">Any Sex</option>
-        <option value="Male"   {% if filters.sex == 'Male'   %}selected{% endif %}>Male</option>
-        <option value="Female" {% if filters.sex == 'Female' %}selected{% endif %}>Female</option>
-      </select>
 
-      <input type="number" name="age_min" placeholder="Min age" value="{{ filters.age_min }}">
-      –
-      <input type="number" name="age_max" placeholder="Max age" value="{{ filters.age_max }}">
+    <select name="status">
+      <option value="">All Status</option>
+      <option value="unassigned" {% if filters.status == 'unassigned' %}selected{% endif %}>Unassigned</option>
+      <option value="assigned"   {% if filters.status == 'assigned'   %}selected{% endif %}>Assigned</option>
+      <option value="reported"   {% if filters.status == 'reported'   %}selected{% endif %}>Reported</option>
+    </select>
 
-      <button type="submit">Apply Filters</button>
-    </form>
+    <select name="modality">
+      <option value="">All Modality</option>
+      {% for val,label in Patient.MODALITY_CHOICES %}
+        <option value="{{ val }}" {% if filters.modality == val %}selected{% endif %}>{{ label }}</option>
+      {% endfor %}
+    </select>
 
-    <button class="btn-add" onclick="openForm()">Add New Case</button>
-  </header>
+    <select name="sex">
+      <option value="">Any Sex</option>
+      <option value="Male"   {% if filters.sex == 'Male'   %}selected{% endif %}>Male</option>
+      <option value="Female" {% if filters.sex == 'Female' %}selected{% endif %}>Female</option>
+    </select>
+
+    <input type="number" name="age_min" placeholder="Min age" value="{{ filters.age_min }}">
+    –
+    <input type="number" name="age_max" placeholder="Max age" value="{{ filters.age_max }}">
+
+    <button type="submit" style="padding:6px 12px; background:green; color:#fff; border:none; border-radius:4px; cursor:pointer;">
+      Apply Filters
+    </button>
+  </form>
+
+  <button class="btn-add" onclick="openForm()">Add New Case</button>
+</header>
 
   <!-- Add Case Modal -->
   <div id="caseForm" class="modal" style="display:none;">
@@ -173,14 +194,23 @@
           <td>{{ p.receiving_date|timezone:"Asia/Kolkata" }}</td>
           <td>{{ p.number_of_images }}</td>
           <td>
-            {% if p.report_file %}
-              <a href="{{ p.report_file.url }}" download>Download</a>
-            {% else %}-{% endif %}
-          </td>
+  {% if p.status == 'reported' %}
+    {% with rep=p.reports.last %}
+      {% if rep %}
+        <a 
+          href="{% url 'doctor:download_report' p.patient_id %}" 
+          class="btn-report"
+        >
+          Report #{{ rep.id }}
+        </a>
+      {% endif %}
+    {% endwith %}
+  {% endif %}
+</td>
           <td>{{ p.study_date|default:"-" }}</td>
           <td>
             {% if p.preferred_physician %}
-              {{ p.preferred_physician.username }}
+              {{ "Dr. " }}{{ p.preferred_physician.first_name }}{{ " " }}{{ p.preferred_physician.last_name }}
             {% else %}-{% endif %}
           </td>
           <td>
@@ -191,7 +221,7 @@
                   {% for doctor in doctors %}
                     <option value="{{ doctor.id }}"
                       {% if p.preferred_physician and doctor.id == p.preferred_physician.id %}selected{% endif %}>
-                      {{ doctor.username }} {{ doctor.last_name }}
+                      {{"Dr. "}}{{ doctor.first_name }} {{ doctor.last_name }}
                     </option>
                   {% endfor %}
                 </select>
